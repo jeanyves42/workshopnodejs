@@ -16,12 +16,18 @@
 // });
 
 // server.listen(3000)
-
+let path = require('path');
 const express = require('express');
 const app = express();
 const port = 3000;
 
-app.get('/', (req,res) => res.send('<h1>Home page</h1>'));
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+app.get('/', (req,res) => res.render("homepage",{
+  "title": "HomePage",
+  "description": "Description HomePage",
+}));
 app.get('/about', (req,res) => res.send('<h1>About US page</h1>'));
 app.get('/contact', (req,res) => res.send('<h1>Contact page</h1>'));
 app.get('*', (req,res) => res.send('<h1>Other page</h1>'));
