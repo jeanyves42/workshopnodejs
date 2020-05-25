@@ -9,5 +9,8 @@
     "dev": "nodemon index.js"
   },
   "author": "JY Bruyas",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
