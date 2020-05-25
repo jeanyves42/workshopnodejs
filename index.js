@@ -1,7 +1,19 @@
 let fs = require('fs');
 let path = require('path');
+var readline = require('readline')
+var process = require('process')
 
-orderProductById("P1");
+var rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false})
+
+rl.on('line', function(line) {
+
+  if(line.includes('i want product')) {
+    var params = line.split('i want product '); 
+    orderProductById(params[1]);
+  }
+
+})
+// orderProductById("P1");
 
 function getAllProducts(cb) {
 
