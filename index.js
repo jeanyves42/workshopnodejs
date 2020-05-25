@@ -7,9 +7,11 @@ var rl = readline.createInterface({input: process.stdin, output: process.stdout,
 
 rl.on('line', function(line) {
 
-  if(line.includes('i want product')) {
+  if(line.includes('i want product ')) {
     var params = line.split('i want product '); 
     orderProductById(params[1]);
+  } else {
+    console.log('Mauvaise saisie. Vous devez saisir "i want product <id_product>"');
   }
 
 })
