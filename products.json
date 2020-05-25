@@ -1,0 +1,24 @@
+{
+  "products": [
+    {
+      "id" : "1",
+      "name": "produit 1",
+      "description": "description du produit 1",
+      "USD_price": "15.00",
+      "EUR_price": "11.15",
+      "file_link": "",
+      "creation_date": "2020-05-25",
+      "orders_counter": 0
+    },
+    {
+      "id" : "2",
+      "name": "produit 2",
+      "description": "description du produit 2",
+      "USD_price": "45.00",
+      "EUR_price": "33.45",
+      "file_link": "",
+      "creation_date": "2020-05-25",
+      "orders_counter": 0
+    }
+  ]
+}
