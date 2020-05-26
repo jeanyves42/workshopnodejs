@@ -55,6 +55,8 @@ function orderProductById(id) {
       if(product.id === id) {
         product.orders_counter += 1;
         link = product.file_link;
+      } else {
+        return console.log(err,'Cette id de produit n\'existe pas');
       }
 
     })
