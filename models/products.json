@@ -7,7 +7,7 @@
         "EUR_price": 1115,
         "file_link": "lien_fichier_P1",
         "creation_date": "2020-05-25",
-        "orders_counter": 7
+        "orders_counter": 11
     },
     {
         "id": "P2",
@@ -17,6 +17,6 @@
         "EUR_price": 3345,
         "file_link": "lien_fichier_P2",
         "creation_date": "2020-05-25",
-        "orders_counter": 3
+        "orders_counter": 8
     }
 ]

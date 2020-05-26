@@ -1,76 +1,23 @@
-let fs = require('fs');
 let path = require('path');
-var readline = require('readline')
-var process = require('process')
+const express = require('express');
+var bodyParser = require('body-parser');
 
-var rl = readline.createInterface({input: process.stdin, output: process.stdout, terminal: false})
+const app = express();
+const port = 3000;
 
-rl.on('line', function(line) {
+var __Products = require('./controllers/products');
+var __Authorize = require('./middlewares/authorize').authorize;
 
-  if(line.includes('i want product ')) {
-    var params = line.split('i want product '); 
-    orderProductById(params[1]);
-  } else {
-    console.log('Mauvaise saisie. Vous devez saisir "i want product <id_product>"');
-  }
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static("public"));
 
-})
-// orderProductById("P1");
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 
-function getAllProducts(cb) {
+app.get('/', __Products.getAllProducts);
+app.post('/product/add', __Authorize,  __Products.addProduct);
 
-  fs.readFile(path.join(__dirname,'products.json'), 'utf8', (err, content) => {
-    if(err) {
-      return cb(err);
-    }
-    try {
-      var products = JSON.parse(content);
-      if(products.length > 0) {
-        console.log("Bienvenue. Voici les produits disponibles :");
-    
-        products.forEach(product => {
-          console.log('- ' + product.id + ' - ' + product.name + ' / ' + product.EUR_price/100 + ' / ' + product.orders_counter);
-        });
-      }
-      return cb(null, products);
-    } catch(e) {
-      return cb(e);
-    }
-  
-  })
-
-}
-
-
-function orderProductById(id) {
-
-  getAllProducts((err, products) => {
-    if(err) {
-      return console.log(err,'Erreur');
-    }
-
-    var link = '';
-
-    products.forEach(product => {
-      if(product.id === id) {
-        product.orders_counter += 1;
-        link = product.file_link;
-      } else {
-        return console.log(err,'Cette id de produit n\'existe pas');
-      }
-
-    })
-
-    fs.writeFile(path.join(__dirname,'products.json'), JSON.stringify(products,null,4), 'utf8', (err) => {
-      if(err) {
-        return console.log(err);
-      }
-
-      console.log("Commande terminée. Voici votre fichier : " + link);
-
-    })
-
-  })
-
-}
-
+app.listen(port, () => console.log(`App listening on port ${port} !`));
