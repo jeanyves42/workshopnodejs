@@ -122,5 +122,8 @@ const orderProductById = function(id, cb) {
 
 module.exports = {
   getAllProducts, 
-  orderProductById
+  orderProductById,
+  Product
 };
+
+// module.exports = Product;

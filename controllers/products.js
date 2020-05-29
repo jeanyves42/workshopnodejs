@@ -21,6 +21,7 @@ module.exports.getAllProducts = function(req, res) {
 module.exports.addProduct = function(req, res) {
 
   // console.log(req.params.id, "PARAMS ID");
+  console.log(req.user, "USER CONNECTED");
 
   if(!req.body.id) return res.send({"status": false, "product": null});
 

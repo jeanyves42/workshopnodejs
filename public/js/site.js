@@ -17,11 +17,12 @@ $(document).ready(function() {
     };
     $.ajax({
       method: "POST",
-      url: "/product/add",
+      // url: "/product/add",
+      url: "/order",
       data: params,
       success: (res) => {
         console.log(res);
-        if(res.status === true) alert('Produit ' + res.product + ' ajouté');
+        if(res.status === true) alert('Produit ' + res.product + ' commandé');
         else alert("Une erreur s'est produite");
       }
     })

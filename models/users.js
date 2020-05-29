@@ -11,17 +11,19 @@ var UserSchema = new mongoose.Schema({
 });
 var User = mongoose.model('User', UserSchema);
 
-const login = function(email, password, cb) {
-  User.findOne({email: email, password: password}, (err, user) => {
-    if(err || !user) {
-      console.log('Pas de user');
-      return cb(err || new Error('pas de user'));
-    }
-    console.log(user, "USER FINDONE");
-    return cb(null, user);
-  })
-}
+// const login = function(email, password, cb) {
+//   User.findOne({email: email, password: password}, (err, user) => {
+//     if(err || !user) {
+//       console.log('Pas de user');
+//       return cb(err || new Error('pas de user'));
+//     }
+//     console.log(user, "USER FINDONE");
+//     return cb(null, user);
+//   })
+// }
 
-module.exports = {
-  login
-};
+// module.exports = {
+//   login
+// };
+
+module.exports = User;
