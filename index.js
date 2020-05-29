@@ -2,7 +2,7 @@ let path = require('path');
 const express = require('express');
 var bodyParser = require('body-parser');
 const passport = require('passport');
-const User = require('./models/users');
+const __User = require('./models/users');
 const localStrategy = require('./controllers/Auth/authLocal');
 
 const session = require("express-session");
@@ -42,9 +42,20 @@ passport.serializeUser(function(user, cb) {
 });
 
 passport.deserializeUser(function(id, cb) {
-  User.findById(id, function(err, user) {
-    cb(err, user);
+  __User.findById(id, function(err, user) {
+      cb(err, user);
   });
+});
+
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  console.log('io user is connected');
+  socket.emit('message', {message: 'message sent !'});
+  socket.on('clientresponse', (data) => {
+    console.log(data.message);
+  })
 });
 
 app.get('/', __Products.getAllProducts);
@@ -53,4 +64,4 @@ app.get('/', __Products.getAllProducts);
 app.post('/order', passport.authenticate('local'), __Orders.addOrder);
 app.get('/myorders', __Custom, __Orders.getAllOrders);
 
-app.listen(port, () => console.log(`App listening on port ${port} !`));
+server.listen(port, () => console.log(`App listening on port ${port} !`));
