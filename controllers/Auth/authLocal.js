@@ -1,4 +1,6 @@
 const User = require('../../models/users');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -16,12 +18,20 @@ const localStrategy = new LocalStrategy({
         if (!user) {
           return done(null, false, {message: 'email incorrcet'});
         }
+        
+        bcrypt.compare(password, user.password).then(function(result) {
 
-        if (user.password != password) {
-          return done(null, false, {message: 'password incorrcet'});
-        }
+          if(result) return done(null, user);
 
-        return done(null, user);
+          else return done(null, false, {message: 'password incorrcet'});
+
+        });
+
+        // if (user.password != password) {
+          // return done(null, false, {message: 'password incorrcet'})
+        // }
+
+        // return done(null, user);
       });
   }
 );

@@ -16,6 +16,7 @@ var ProductSchema = new mongoose.Schema({
   'creation_date': Date,
   'orders_counter': Number
 });
+
 var Product = mongoose.model('Product', ProductSchema, 'product');
 
 // var readline = require('readline')

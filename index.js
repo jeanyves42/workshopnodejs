@@ -1,15 +1,29 @@
 let path = require('path');
 const express = require('express');
+const helmet = require('helmet')
 var bodyParser = require('body-parser');
+// var methodOverride = require('method-override')
+const mongoose = require('mongoose')
+const restify = require('express-restify-mongoose')
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 const passport = require('passport');
 const __User = require('./models/users');
+const __ProductsModel = require('./models/products');
 const localStrategy = require('./controllers/Auth/authLocal');
+
+const router = express.Router();
 
 const session = require("express-session");
 
 passport.use(localStrategy);
 
 const app = express();
+
+app.use(helmet());
+
 const port = 3000;
 
 var __Products = require('./controllers/products');
@@ -32,6 +46,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -46,6 +61,18 @@ passport.deserializeUser(function(id, cb) {
       cb(err, user);
   });
 });
+
+// const hash = bcrypt.hashSync("123456", saltRounds);
+// console.log(hash);
+// bcrypt.hash("123456", saltRounds, function(err, hash) {
+//   console.log(hash, "HASH PASSWORD");
+// });
+
+// app.use(methodOverride())
+
+restify.serve(router, __ProductsModel.Product);
+
+app.use(router);
 
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
@@ -63,5 +90,7 @@ app.get('/', __Products.getAllProducts);
 // app.post('/product/add', passport.authenticate('local'), __Products.addProduct);
 app.post('/order', passport.authenticate('local'), __Orders.addOrder);
 app.get('/myorders', __Custom, __Orders.getAllOrders);
+
+console.log(router.stack);
 
 server.listen(port, () => console.log(`App listening on port ${port} !`));
